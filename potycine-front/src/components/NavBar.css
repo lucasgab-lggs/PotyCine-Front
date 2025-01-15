@@ -1,0 +1,12 @@
+nav {
+    background-color: #982B1C;
+    color: white;
+}
+
+.nav-link {
+    text-decoration: none;
+}
+
+.nav-selected {
+    background-color: #880000 !important;
+}
