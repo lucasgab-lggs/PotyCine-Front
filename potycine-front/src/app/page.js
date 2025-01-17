@@ -5,8 +5,8 @@ export default function LandingPage() {
   return (
     <div className="container">
       <div className="title">
-        <h1>PotyCine</h1>
-        <p>Descubra o melhor de cinema local</p>
+        <h1 className="page-title">PotyCine</h1>
+        <p className="page-text">Descubra o melhor de cinema local</p>
       </div>
 
       <Link href="/login">

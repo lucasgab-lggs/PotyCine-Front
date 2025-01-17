@@ -3,7 +3,7 @@
 
 body {
     min-height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/cover.jpg');
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/cover.jpg'); */
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -14,7 +14,7 @@ body {
     margin-bottom: 100px;
 }
 
-h1 {
+.page-title {
     text-align: center;
     font-family: "Montserrat", serif;
     font-size: 50px;
@@ -22,7 +22,7 @@ h1 {
     font-weight: 700;
 }
 
-p {
+.page-text {
     font-family: "Poppins", serif;
     font-weight: 300;
     font-style: normal;
@@ -54,5 +54,9 @@ p {
     justify-content: center;
     min-height: 100vh; 
     text-align: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/cover.jpg'); 
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 

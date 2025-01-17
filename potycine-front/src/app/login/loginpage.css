@@ -1,5 +1,5 @@
 body {
-    background-color: #FAF7F0;
+    background-color: #FAF7F0 !important;
 
     display: flex;
     /* flex-direction: column; */
@@ -21,6 +21,11 @@ h1 {
 
 .esqueceu-senha {
     color: #800000;
+    text-decoration: none;
+}
+
+.esqueceu-senha:hover {
+    text-decoration: underline;
 }
 
 .btn-entrar {
@@ -28,4 +33,9 @@ h1 {
     color: white;
     font-size: 22px;
     width: 100%;
+}
+
+.btn-entrar:hover {
+    background-color: #800000c4;
+    color: white;
 }
