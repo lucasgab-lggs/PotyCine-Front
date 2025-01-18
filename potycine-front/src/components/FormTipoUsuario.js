@@ -1,12 +1,18 @@
 import React from "react";
 import { useState } from "react";
 
-const FormTipoUsuario = ({ onNext }) => {
+const FormTipoUsuario = ({ onNext, setUserType }) => {
   const [selectedUserType, setSelectedUserType] = useState(null);
 
   const handleUserType = (userType) => {
     setSelectedUserType(userType);
   };
+
+  const handleNext = () => {
+    setUserType(selectedUserType);
+    onNext();
+  }
+
   return (
     <div>
       <div className="mt-5 mb-3">
@@ -46,7 +52,7 @@ const FormTipoUsuario = ({ onNext }) => {
         </div>
       </form>
       <div className="d-flex justify-content-end mt-5 p-2 fixed-bottom mb-5">
-        <button onClick={onNext} className="py-2 d-flex justify-content-between px-4">Próximo <i class="bi bi-chevron-right"></i></button>
+        <button onClick={handleNext} className="py-2 d-flex justify-content-between px-4">Próximo <i className="bi bi-chevron-right"></i></button>
       </div>
     </div>
   );
