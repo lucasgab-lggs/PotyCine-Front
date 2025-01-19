@@ -1,6 +1,7 @@
 nav {
     background-color: #982B1C;
     color: white;
+    height: 100px;
 }
 
 .nav-link {
@@ -10,3 +11,4 @@ nav {
 .nav-selected {
     background-color: #880000 !important;
 }
+
