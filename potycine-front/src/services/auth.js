@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import {jwtDecode} from "jwt-decode";
 
 export async function registerUser(user) {
     const res = await fetch('http://localhost:8080/users', {
@@ -50,7 +51,7 @@ export async function loginUser(email, password) {
 }
 
 export function saveToken(token) {
-    Cookies.set('token', token);
+    Cookies.set('token', token, { expires: 1 });
 }
 
 export function getToken() {
@@ -65,3 +66,34 @@ export function isLoggedIn() {
     return !!getToken();
 }
 
+export function getUserId() {
+    const token = getToken();
+    if (!token) {
+        return null;
+    }
+    try{
+        const {id} = jwtDecode(token);
+
+        return id;
+    } catch (error) {
+        console.error("Erro ao decodificar token", error);
+        return null;
+    }
+}
+
+export async function getProducerByUserId(userId) {
+    const res = await fetch(`http://localhost:8080/producers/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`,
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error('Erro ao buscar dados de produtor');
+    }
+
+    const data = await res.json();
+    return data;
+}
