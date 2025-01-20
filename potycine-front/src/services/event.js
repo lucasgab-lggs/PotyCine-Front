@@ -48,3 +48,20 @@ export async function createExhibits(exhibits) {
     const data = await res.json();
     return data;
 }
+
+export async function getEventsByUserId(userId) {
+    const res = await fetch(`http://localhost:8080/events/producer/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`,
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error('Erro ao buscar dados de produtor');
+    }
+
+    const data = await res.json();
+    return data;
+}

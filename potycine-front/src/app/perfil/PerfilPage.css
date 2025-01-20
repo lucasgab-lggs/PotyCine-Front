@@ -1,0 +1,132 @@
+.perfil-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 20px;
+}
+.perfil-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 8px;
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+}
+
+.perfil-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 10%;
+  margin-right: 16px;
+}
+
+.perfil-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-title {
+  margin: 0;
+  font-weight: bold;
+}
+
+.perfil-text {
+  margin: 8px 0;
+  color: #555;
+}
+
+.perfil-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.perfil-tag {
+  color: red;
+  text-decoration: underline;
+  font-size: 14px;
+}
+.bio-container{
+  width: 100%;
+  max-width: 800px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.events-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 15px;
+  background: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bio-title,
+.events-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.bio-text {
+  font-size: 1rem;
+  color: #555;
+}
+
+.events-empty {
+  font-size: 1rem;
+  color: #777;
+  text-align: center;
+}
+
+.event-card {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.event-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.event-date,
+.event-location,
+.event-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-event-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.add-event-icon {
+  width: 24px;
+  height: 24px;
+  color: #800000;
+  transition: color 0.3s;
+}
+
+.add-event-icon:hover {
+  color: #0056b3;
+}
