@@ -18,7 +18,7 @@ export async function createEvent(event) {
 }
 
 export async function getEvents() {
-    const res = await fetch('http://localhost:8080/events/until-today', {
+    const res = await fetch('http://localhost:8080/events/all', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

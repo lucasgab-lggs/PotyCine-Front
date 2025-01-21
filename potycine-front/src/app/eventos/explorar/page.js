@@ -5,26 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-//import { getEvents } from '@/services/event';
-
-async function getEvents() {
-  return [
-    {
-      id: 1,
-      title: 'Exibição do curta-metragem Contra-Filé',
-      startDate: '2025-01-21T18:00:00.000+00:00',
-      address: 'Auditório A, do Centro de Ciências Humanas – CCH, UFRN',
-      image: '/images/cover.jpg',
-    },
-    {
-      id: 2,
-      title: 'Especial de Carnaval',
-      startDate: '2025-03-01T16:00:00.000+00:00',
-      address: 'Auditório A, do Centro de Ciências Humanas – CCH, UFRN',
-      image: '/images/cover.jpg',
-    },
-  ];
-}
+import { getEvents } from '@/services/event';
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -88,8 +69,8 @@ export default function EventsPage() {
                     </div>
                   </div>
 
-                  {/* Título e Local */}
-                  <h5 className="mt-3">{event.title}</h5>
+                  {/* Nome e Local */}
+                  <h5 className="mt-3">{event.name}</h5>
                   <p className="text-muted mb-1">
                     <i className="bi bi-geo-alt"></i> {event.address}
                   </p>
