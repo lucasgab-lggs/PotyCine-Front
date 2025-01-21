@@ -1,8 +1,86 @@
+"use client"
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './explorarpage.css';
+import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { getEvents } from '@/services/event';
+
 export default function EventsPage() {
-    return (
-      <div>
-        eventos/explorar
+  const [events, setEvents] = useState([]);
+
+  // Carrega os eventos no cliente
+  useEffect(() => {
+    async function fetchEvents() {
+      const data = await getEvents();
+      setEvents(data);
+    }
+    fetchEvents();
+  }, []);
+
+  // Função para formatar a data e hora
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = format(date, 'dd MMM yyyy, HH:mm', { locale: ptBR });
+    const [day, monthYearTime] = formattedDate.split(' ');
+    const [month, time] = monthYearTime.split(',');
+
+    return { day, month, time: time.trim() };
+  };
+
+  return (
+    <div className="container-fluid py-4">
+      {/* Avatar e Categorias */}
+      <div className="text-center mb-4">
+        <div className="avatar mx-auto mb-3">
+          <img
+            src="/images/cover.jpg"
+            alt="Avatar"
+            className="rounded-circle img-fluid"
+            style={{ maxWidth: '4rem' }}
+          />
+        </div>
+
+        <div className="categories d-flex flex-wrap justify-content-center">
+          {['Exibição', 'Festival', 'Oficina', 'Longa-metragem', 'Curta-metragem', 'Outro'].map(
+            (category) => (
+              <button key={category} className="btn mx-2 mb-2 rounded-pill">
+                {category}
+              </button>
+            )
+          )}
+        </div>
       </div>
-    );
-  }
-  
+
+      {/* Lista de Eventos Dinâmicos */}
+      <div className="row">
+        {events.map((event) => {
+          const { day, month, time } = formatDate(event.startDate);
+          return (
+            <div className="col-md-6 col-lg-4 mb-4" key={event.id}>
+              <div className="card shadow-sm">
+                <div className="card-body">
+                  {/* Data e Hora */}
+                  <div className="d-flex align-items-center flex-wrap">
+                    <h5 className="date text-danger me-3">{day}</h5>
+                    <div>
+                      <h6 className="month mb-0">{month}</h6>
+                      <small>{time}</small>
+                    </div>
+                  </div>
+
+                  {/* Título e Local */}
+                  <h5 className="mt-3">{event.title}</h5>
+                  <p className="text-muted mb-1">
+                    <i className="bi bi-geo-alt"></i> {event.address}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
