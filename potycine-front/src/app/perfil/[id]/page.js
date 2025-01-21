@@ -7,8 +7,9 @@ import { getProducerByUserId } from "@/services/users";
 import { getEventsByUserId } from "@/services/event";
 import "./PerfilPage.css";
 
-export default function PerfilPage() {
+export default function PerfilPage({ params }) {
   const router = useRouter();
+  const { id } = params;
   const [userData, setUserData] = useState({
     id: "",
     name: "",
@@ -19,16 +20,20 @@ export default function PerfilPage() {
   });
   const [newProfileImage, setNewProfileImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = await getUserId();
+        const userId = id;
         const producerData = await getProducerByUserId(userId);
-        const eventsData = await getEventsByUserId(3);
+        const eventsData = await getEventsByUserId(producerData.id);
+        const loggedInUserId = await getUserId();
+
+        setCurrentUserId(loggedInUserId);
 
         setUserData({
-          id: userId,
+          id: producerData.id,
           name: producerData.user.name,
           email: producerData.user.email,
           bio: producerData.bio || "This is your bio. You can update it!",
@@ -41,7 +46,7 @@ export default function PerfilPage() {
     };
 
     fetchUserData();
-  }, []);
+  }, [id]);
 
   const handleCreateEventClick = () => {
     router.push("/criar/evento");
@@ -50,12 +55,12 @@ export default function PerfilPage() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setNewProfileImage(URL.createObjectURL(file)); // Cria uma URL temporária para a imagem
+      setNewProfileImage(URL.createObjectURL(file));
     }
   };
 
   const handleEditClick = () => {
-    setIsEditing((prev) => !prev); // Alterna entre o modo de edição e o modo de visualização
+    setIsEditing((prev) => !prev);
   };
 
   const handleBioChange = (event) => {
@@ -76,31 +81,33 @@ export default function PerfilPage() {
         />
 
         {/* Ícone de editar imagem */}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="edit-icon"
-          width="24"
-          height="24"
-          onClick={handleEditClick} // Alterna entre os modos de edição
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-          />
-        </svg>
+        {currentUserId == id && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="edit-icon"
+            width="24"
+            height="24"
+            onClick={handleEditClick}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+            />
+          </svg>
+        )}
 
         {/* Campo para alterar a imagem, visível apenas quando estiver no modo de edição */}
-        {isEditing && (
+        {isEditing && currentUserId == id && (
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            style={{ display: "block", marginTop: "10px" }} // Exibe o input de arquivo
+            style={{ display: "block", marginTop: "10px" }}
           />
         )}
 
@@ -121,7 +128,7 @@ export default function PerfilPage() {
       {/* Container da bio */}
       <div className="bio-container">
         <h3 className="bio-title">Bio</h3>
-        {isEditing ? (
+        {isEditing && currentUserId == id ? (
           <textarea
             value={userData.bio}
             onChange={handleBioChange}
@@ -136,22 +143,27 @@ export default function PerfilPage() {
       <div className="events-container">
         <div className="events-header">
           <h3 className="events-title">My Events</h3>
-          <button className="add-event-button" onClick={handleCreateEventClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="add-event-icon"
+          {currentUserId == id && (
+            <button
+              className="add-event-button"
+              onClick={handleCreateEventClick}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="add-event-icon"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
+          )}
         </div>
         {userData.events.length === 0 ? (
           <p className="events-empty">No events to display.</p>
@@ -159,7 +171,10 @@ export default function PerfilPage() {
           userData.events.map((event, index) => (
             <div key={index} className="event-card">
               <h4 className="event-name">{event.name}</h4>
-              <p className="event-date">{new Date(event.startDate).toLocaleDateString()} - {new Date(event.endDate).toLocaleDateString()}</p>
+              <p className="event-date">
+                {new Date(event.startDate).toLocaleDateString()} -{" "}
+                {new Date(event.endDate).toLocaleDateString()}
+              </p>
               <p className="event-location">{event.address}</p>
               <p className="event-description">{event.description}</p>
             </div>

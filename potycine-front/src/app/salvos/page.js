@@ -10,7 +10,7 @@ export default function TicketsPage() {
   //PEGA ESSAS 2 CONSTANTES
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [ticketCount, setTicketCount] = useState(1);
-  const [halfTicketCount, setHalfTicketCount] = useState(0); // Para a contagem de ingressos meia entrada
+  const [halfTicketCount, setHalfTicketCount] = useState(0);
   //===============================================
 
   useEffect(() => {
