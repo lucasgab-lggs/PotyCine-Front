@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getUserId, getProducerByUserId } from "@/services/auth";
+import { getUserId } from "@/services/auth";
+import { getProducerByUserId } from "@/services/users";
 import { getEventsByUserId } from "@/services/event";
 import "./PerfilPage.css";
 

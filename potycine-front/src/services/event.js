@@ -59,7 +59,7 @@ export async function getEventsByUserId(userId) {
     });
 
     if (!res.ok) {
-        throw new Error('Erro ao buscar dados de produtor');
+        throw new Error('Erro ao buscar eventos do produtor');
     }
 
     const data = await res.json();

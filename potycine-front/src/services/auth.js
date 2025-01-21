@@ -97,3 +97,20 @@ export async function getProducerByUserId(userId) {
     const data = await res.json();
     return data;
 }
+export async function getDataByUserId(userId) {
+    const res = await fetch(`http://localhost:8080/users/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`,
+        }
+    });
+
+    if (!res.ok) {
+        throw new Error('Erro ao buscar dados do usuário');
+    }
+
+    const data = await res.json();
+    return data;
+}
+
