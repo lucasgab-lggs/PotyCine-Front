@@ -2,6 +2,7 @@
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './explorarpage.css';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -33,15 +34,14 @@ export default function EventsPage() {
     <div className="container-fluid py-4">
       {/* Avatar e Categorias */}
       <div className="text-center mb-4">
-        <div className="avatar mx-auto mb-3">
+        <Link href="/perfil" className="avatar mx-auto mb-3">
           <img
             src="/images/cover.jpg"
             alt="Avatar"
             className="rounded-circle img-fluid"
-            style={{ maxWidth: '4rem' }}
+            style={{ maxWidth: '4rem', cursor: 'pointer' }}
           />
-        </div>
-
+        </Link>
         <div className="categories d-flex flex-wrap justify-content-center">
           {['Exibição', 'Festival', 'Oficina', 'Longa-metragem', 'Curta-metragem', 'Outro'].map(
             (category) => (

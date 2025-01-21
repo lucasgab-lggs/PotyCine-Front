@@ -44,7 +44,7 @@ export default function PerfilPage() {
   }, []);
 
   const handleCreateEventClick = () => {
-    router.push("/create-event");
+    router.push("/criar/evento");
   };
 
   const handleImageChange = (event) => {
