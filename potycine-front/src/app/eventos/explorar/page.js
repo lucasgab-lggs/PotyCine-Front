@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+//import { getEvents } from '@/services/event';
 
 async function getEvents() {
   return [
@@ -31,7 +32,7 @@ export default function EventsPage() {
   // Carrega os eventos no cliente
   useEffect(() => {
     async function fetchEvents() {
-      const data = await getEvents();
+      const data = await getEvents(); // Para obter do back, descomentar o import e comentar a função que retorna placeholders.
       setEvents(data);
     }
     fetchEvents();
