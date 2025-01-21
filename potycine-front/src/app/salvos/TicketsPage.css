@@ -6,6 +6,7 @@
 }
 
 .page-title {
+  color: #800000;
   font-size: 2rem;
   margin-bottom: 20px;
   text-align: center;
@@ -47,7 +48,6 @@
   text-align: center;
 }
 
-/*DAQUI PARA BAIXO*/
 /* Botão de compra */
 .buy-button {
   position: fixed;
@@ -66,7 +66,6 @@
   justify-content: center;
   align-items: center;
 }
-
 
 /* Estilos para o pop-up */
 .popup {
@@ -106,12 +105,23 @@
   margin-bottom: 20px;
 }
 
-.ticket-quantity {
-  font-size: 24px;
+.ticket-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  background-color: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.ticket-left {
+  text-align: left;
+}
+
+.ticket-right {
+  display: flex;
+  align-items: center;
 }
 
 .quantity-button {
@@ -129,7 +139,6 @@
   justify-content: center;
   align-items: center;
 }
-
 
 .confirm-button {
   background-color: #28a745;

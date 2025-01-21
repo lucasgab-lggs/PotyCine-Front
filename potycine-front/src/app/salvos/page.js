@@ -10,6 +10,7 @@ export default function TicketsPage() {
   //PEGA ESSAS 2 CONSTANTES
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [ticketCount, setTicketCount] = useState(1);
+  const [halfTicketCount, setHalfTicketCount] = useState(0); // Para a contagem de ingressos meia entrada
   //===============================================
 
   useEffect(() => {
@@ -45,11 +46,22 @@ export default function TicketsPage() {
     }
   };
 
+  const incrementHalfTicketCount = () => {
+    setHalfTicketCount(halfTicketCount + 1);
+  };
+
+  const decrementHalfTicketCount = () => {
+    if (halfTicketCount > 0) {
+      setHalfTicketCount(halfTicketCount - 1);
+    }
+  };
+
   const handleBuyTicket = async () => {
     try {
       const userId = await getUserId();
-      //COLOCAR VARIÁVEIS DE VERDADE EM EVENT_ID E PRICE
-      await buyTicket(userId, 2 ,40, ticketCount);
+      /* COLOCAR VARIÁVEIS DE VERDADE EM EVENT_ID E PRICE*/
+      await buyTicket(userId, 4, 40, ticketCount);
+      await buyTicket(userId, 4, ((40/2).toFixed(2)), halfTicketCount);
       alert("Compra realizada com sucesso!");
       closePopup();
     } catch (error) {
@@ -79,7 +91,6 @@ export default function TicketsPage() {
         )}
       </div>
 
-    //COMEÇA AQUI
       {/* Botão para abrir o pop-up de compra */}
       <button className="buy-button" onClick={openPopup}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -95,27 +106,50 @@ export default function TicketsPage() {
 
             <div className="ticket-sample">
               {tickets.length > 0 && (
-                <div className="ticket-card">
-                  <h2 className="ticket-title">{tickets[2].eventName}</h2>
-                  <p className="ticket-info"><strong>Evento:</strong> {tickets[2].event.name}</p>
-                  <p className="ticket-info"><strong>Local:</strong> {tickets[2].event.address}</p>
-                  <p className="ticket-info"><strong>Data:</strong> {tickets[2].event.startDate} - {tickets[2].event.endDate}</p>
-                  <p className="ticket-info"><strong>Preço:</strong> R${tickets[2].price}</p>
-                </div>
-              )}
-            </div>
+                <>
+                  {/* Ingresso principal */}
+                  {/*COLOCAR VARIAVEIS QUE NÃO SEJAM ORIENTADAS A ESSA LISTA DE TICKETS*/}
+                  <div className="ticket-card">
+                    <h2 className="ticket-title">{tickets[2].eventName}</h2>
+                    <p className="ticket-info"><strong>Evento:</strong> {tickets[2].event.name}</p>
+                    <p className="ticket-info"><strong>Local:</strong> {tickets[2].event.address}</p>
+                    <p className="ticket-info"><strong>Data:</strong> {tickets[2].event.startDate} - {tickets[2].event.endDate}</p>
+                    <p className="ticket-info"><strong>Preço Inteira:</strong> R${tickets[2].price}</p>
+                  </div>
 
-            <div className="ticket-quantity">
-              <button onClick={decrementTicketCount} className="quantity-button">-</button>
-              <span>{ticketCount}</span>
-              <button onClick={incrementTicketCount} className="quantity-button">+</button>
+                  {/* Contêiner para ingresso inteiro */}
+                  <div className="ticket-container white-background">
+                    <div className="ticket-left">
+                      <h4>Inteira</h4>
+                      <p>R${tickets[2].price}</p>
+                    </div>
+                    <div className="ticket-right">
+                      <button onClick={decrementTicketCount} className="quantity-button">-</button>
+                      <span>{ticketCount}</span>
+                      <button onClick={incrementTicketCount} className="quantity-button">+</button>
+                    </div>
+                  </div>
+
+                  {/* Contêiner para ingresso meia entrada */}
+                  <div className="ticket-container white-background">
+                    <div className="ticket-left">
+                      <h4>Meia Entrada</h4>
+                      <p>R${(tickets[2].price / 2).toFixed(2)}</p>
+                    </div>
+                    <div className="ticket-right">
+                      <button onClick={decrementHalfTicketCount} className="quantity-button">-</button>
+                      <span>{halfTicketCount}</span>
+                      <button onClick={incrementHalfTicketCount} className="quantity-button">+</button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <button className="confirm-button" onClick={handleBuyTicket}>Confirmar Compra</button>
           </div>
         </div>
       )}
-      //TERMINA AQ
     </div>
   );
 }
