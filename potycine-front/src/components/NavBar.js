@@ -9,23 +9,25 @@ import { useEffect, useState } from "react";
 export default function NavBar() {
   const pathname = usePathname();
   const [userRole, setUserRole] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    async function fetchUserRole() {
+    async function fetchUserData() {
       try {
-        const userId = await getUserId();
-        const userData = await getDataByUserId(userId);
+        const id = await getUserId();
+        setUserId(id);
+        const userData = await getDataByUserId(id);
         if (userData && userData.role) {
           setUserRole(userData.role);
         } else {
-          userData.role = "NÃO DEU CERTO";
+          console.error("Role not found in user data.");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     }
 
-    fetchUserRole();
+    fetchUserData();
   }, []);
 
   const isActive = (path) => pathname === path;
@@ -35,7 +37,7 @@ export default function NavBar() {
       <nav className="fixed-bottom py-3">
         <div className="row">
           <div className="col text-center">
-            <div className={`${isActive('/eventos/explorar') ? 'nav-selected' : ''} mx-5 rounded-5`}>
+            <div className={`${isActive("/eventos/explorar") ? "nav-selected" : ""} mx-5 rounded-5`}>
               <Link href="/eventos/explorar" className="nav-link">
                 <i className="bi bi-geo-alt fs-2"></i>
               </Link>
@@ -44,14 +46,14 @@ export default function NavBar() {
           </div>
 
           <div className="col text-center">
-            {userRole === "PRODUCER" ? (
-              <div className={`${isActive('/perfil') ? 'nav-selected' : ''} mx-5 rounded-5`}>
-                <Link href="/perfil" className="nav-link">
+            {userRole === "PRODUCER" && userId ? (
+              <div className={`${isActive(`/perfil/${userId}`) ? "nav-selected" : ""} mx-5 rounded-5`}>
+                <Link href={`/perfil/${userId}`} className="nav-link">
                   <i className="bi bi-person-circle fs-2"></i>
                 </Link>
               </div>
             ) : userRole === "USER" ? (
-              <div className={`${isActive('/salvos') ? 'nav-selected' : ''} mx-5 rounded-5`}>
+              <div className={`${isActive("/salvos") ? "nav-selected" : ""} mx-5 rounded-5`}>
                 <Link href="/salvos" className="nav-link">
                   <i className="bi bi-bookmark-heart fs-2"></i>
                 </Link>
@@ -61,7 +63,15 @@ export default function NavBar() {
                 <span className="text-danger">{userRole}</span>
               </div>
             )}
-            <span>{userRole === "PRODUCER" ? "Perfil" : userRole === "USER" ? "Ingressos" : userRole === null ? "" : "Inválido"}</span>
+            <span>
+              {userRole === "PRODUCER"
+                ? "Perfil"
+                : userRole === "USER"
+                ? "Ingressos"
+                : userRole === null
+                ? ""
+                : "Inválido"}
+            </span>
           </div>
         </div>
       </nav>
