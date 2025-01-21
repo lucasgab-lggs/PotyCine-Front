@@ -1,12 +1,29 @@
 "use client"
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './explorarpage.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { getEvents } from '@/services/event';
+
+async function getEvents() {
+  return [
+    {
+      id: 1,
+      title: 'Exibição do curta-metragem Contra-Filé',
+      startDate: '2025-01-21T18:00:00.000+00:00',
+      address: 'Auditório A, do Centro de Ciências Humanas – CCH, UFRN',
+      image: '/images/cover.jpg',
+    },
+    {
+      id: 2,
+      title: 'Especial de Carnaval',
+      startDate: '2025-03-01T16:00:00.000+00:00',
+      address: 'Auditório A, do Centro de Ciências Humanas – CCH, UFRN',
+      image: '/images/cover.jpg',
+    },
+  ];
+}
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -27,7 +44,7 @@ export default function EventsPage() {
     const [day, monthYearTime] = formattedDate.split(' ');
     const [month, time] = monthYearTime.split(',');
 
-    return { day, month, time: time.trim() };
+    return { day, month, time:time };
   };
 
   return (
@@ -77,6 +94,7 @@ export default function EventsPage() {
                   </p>
                 </div>
               </div>
+              <br></br>
             </div>
           );
         })}
